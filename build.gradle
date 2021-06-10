@@ -1,0 +1,46 @@
+buildscript {
+    repositories {
+        mavenCentral()
+    }
+    dependencies {
+        classpath("org.springframework.boot:spring-boot-gradle-plugin:${property('spring.boot.version')}")
+    }
+}
+
+apply plugin: 'java'
+apply plugin: 'org.springframework.boot'
+apply plugin: 'io.spring.dependency-management'
+
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("org.springframework.boot:spring-boot-starter:${property('spring.boot.version')}")
+    implementation("org.springframework.boot:spring-boot-starter-web:${property('spring.boot.version')}")
+    implementation("org.springframework.kafka:spring-kafka:${property('spring.kafka.version')}")
+    implementation("org.springframework.boot:spring-boot-starter-web:${property('spring.boot.version')}")
+    implementation("org.postgresql:postgresql:${property('postgresql.version')}")
+    implementation("org.hibernate:hibernate-core:${property('orm.hibernate.version')}")
+    implementation("org.hibernate:hibernate-jpamodelgen:${property('orm.hibernate.version')}")
+    implementation("org.hibernate:hibernate-entitymanager:${property('orm.hibernate.version')}")
+    implementation("com.fasterxml.jackson.core:jackson-databind:${property('fasterxml.jackson.version')}")
+    implementation("com.fasterxml.jackson.core:jackson-core:${property('fasterxml.jackson.version')}")
+    implementation("com.fasterxml.jackson.core:jackson-core:${property('fasterxml.jackson.version')}")
+
+    testImplementation("org.springframework.boot:spring-boot-starter-test:${property('spring.boot.version')}")
+    testImplementation("org.springframework.kafka:spring-kafka-test:${property('spring.kafka.version')}")
+    testImplementation("org.hsqldb:hsqldb:${property('hsqldb.version')}")
+    testImplementation("org.springframework.boot:spring-boot-starter-test:${property('spring.boot.version')}")
+}
+
+/*
+This replaces any variables surrounded by ${} with Gradle variables in scope.
+This includes variables declared in the gradle.properties file.
+NOTE:  This conflicts with Spring Boot variable patterns and the workaround
+  is to put a '\' in front of the Sprint Boot variables.
+*/
+processResources {
+    expand(project.properties)
+}

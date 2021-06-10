@@ -1,0 +1,48 @@
+logging:
+  pattern:
+    console: "%d{ISO8601} [%t] %clr(%-5level){INFO=blue} %cyan(%logger{36}:%L) - %msg%n"
+  level:
+    agco: DEBUG
+    org.springframework.kafka: ERROR
+    org.apache.kafka: ERROR
+
+datasource:
+  dialect: ${project.'datasource.dialect'}
+  driver: org.postgresql.Driver
+  url: ${project.'datasource.url'}
+  user: ${project.'datasource.user'}
+  password: ${project.'datasource.password'}
+
+
+kafka:
+  bootstrap-servers: ${project.'kafka.broker.bootstrap.url'}
+  consumer:
+    devicereference:
+      group:
+        id: ${project.'kafka.consumer.devicereference.group.id'}
+      activation:
+        group:
+          id: ${project.'kafka.consumer.activation.group.id'}
+  properties:
+    bootstrap:
+      servers: ${project.'kafka.broker.bootstrap.url'}
+    schema:
+      registry:
+        url: ${project.'kafka.properties.schema.registry.url'}
+    security:
+      protocol: PLAINTEXT
+    sasl:
+      mechanism: PLAIN
+      jaas:
+        config: org.apache.kafka.common.security.plain.PlainLoginModule required username="${project.'kafka.cluster.api.key'}" password="${project.'kafka.cluster.api.password'}";
+    basic:
+      auth:
+        credentials:
+          source: ${project.'kafka.auth.cred.source'}
+        user:
+          info: ${project.'kafka.auth.cred.secret'}
+
+
+server:
+  servlet:
+    context-path: /dashboard-kafka-consumer
